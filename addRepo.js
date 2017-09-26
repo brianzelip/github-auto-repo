@@ -5,7 +5,7 @@ const request = require('request');
 
 const app = express();
 
-const key = '7c041e9af63cecf435897e6658f25479a19e7397';
+const key = 'e15728aa0ce76e9e3384719f7a62bbb510bd7437';
 
 const options = {
   // uri: 'https://api.github.com/user/repos',
@@ -14,8 +14,8 @@ const options = {
   headers: { 'User-Agent': 'brianzelip' },
   auth: { bearer: key },
   body: JSON.stringify({
-    name: 'github-auto-repo3',
-    description: 'This is the third iteration of this work.',
+    name: 'github-auto-repo4',
+    description: 'This is the fourth iteration of this work.',
     license_template: 'mit'
   })
 };

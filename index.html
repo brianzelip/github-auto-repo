@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <!-- <link rel="stylesheet" href="https://cdn.shoelace.style/1.0.0-beta22/shoelace.css"> -->
+  <link rel="stylesheet" href="https://npmcdn.com/basscss@7.1.1/css/basscss.min.css">
+  <title>GitHub Repo Deploy Robot</title>
+  <meta name="description" content="">
+  <meta name="author" content="Brian Zelip">
+  <meta name="keywords" content="">
+  <style>
+    label {
+      vertical-align: 0;
+    }
+  </style>
+</head>
+
+<body class="container">
+
+  <h1>GitHub Repo Deploy Robot</h1>
+  <form action="POST">
+    <div class="mb2">
+      <div>1. Type of repository to create:</div>
+      <div class="ml2">
+        <input type="radio" name="repo-type" id="per-repo" value="individual"> <label for="per-repo">Personal repo</label>
+      </div>
+      <div class="ml2">
+        <input type="radio" name="repo-type" id="org-repo" value="organization">
+        <label for="org-repo">Organizational repo</label>
+        <label for="parent-org" id="parent-org-label" class="ml1">| Organization name:</label>
+        <input type="text" id="parent-org" class="ml1 flex-auto">
+      </div>
+    </div>
+    <div class="mb2 flex">
+      <label for="repo-name">2. Repository name:</label>
+      <input type="text" id="repo-name" class="ml1 flex-auto">
+    </div>
+    <div class="mb2 flex">
+      <label for="repo-desc">3. Repository description:</label>
+      <input type="text" id="repo-desc" class="ml1 flex-auto">
+    </div>
+    <div class="mb2 flex">
+      <label for="repo-users">4. Add these comma separated GitHub usernames to this repo:</label>
+      <input type="text" id="repo-users" class="ml1 flex-auto">
+    </div>
+    <button id="submit-btn" class="btn btn-primary">Submit</button>
+  </form>
+
+  <script>
+    // get elements of interest
+    const repoType = document.forms[0].elements['repo-type'];
+    const orgRepoRadio = document.getElementById('org-repo');
+    const parentOrgLabel = document.getElementById('parent-org-label');
+    const parentOrg = document.getElementById('parent-org');
+    const repoName = document.getElementById('repo-name');
+    const repoDesc = document.getElementById('repo-desc');
+    const repoUsers = document.getElementById('repo-users');
+    const submitBtn = document.getElementById('submit-btn');
+
+    // orgRepoRadio.addEventListener('RadioStateChange', e => {
+    //   parentOrgLabel.classList.toggle('muted');
+    //   console.log('orgRepoRadio button change!');
+    // })
+
+    submitBtn.addEventListener('click', e => {
+      e.preventDefault();
+      const newRepo = {
+        postUri: repoType.value === `organization` ? `https://api.github.com/orgs/${parentOrg.value}/repos` : `https://api.github.com/user/repos`,
+        method: 'POST',
+        headers: { 'User-Agent': 'brianzelip' },
+        body: JSON.stringify({
+          name: repoName.value,
+          description: repoDesc.value,
+          license_template: 'mit'
+        })
+      }
+      function reqListener() {
+        console.log(this.responseText);
+      }
+      var oReq = new XMLHttpRequest();
+      oReq.addEventListener("load", reqListener);
+      oReq.open("POST", "https://wistful-microwave.glitch.me/addRepo");
+      oReq.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      oReq.send(newRepo);
+    },
+      false
+    );
+  </script>
+</body>
+
+</html>
