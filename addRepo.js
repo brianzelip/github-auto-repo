@@ -5,14 +5,19 @@ const request = require('request');
 
 const app = express();
 
-const key = '8758cd8bcae52485610c68b7b2a373981bf94dc9';
+const key = '7c041e9af63cecf435897e6658f25479a19e7397';
 
 const options = {
-  uri: 'https://api.github.com/user/repos',
+  // uri: 'https://api.github.com/user/repos',
+  uri: 'https://api.github.com/orgs/NCBI-Hackathons/repos',
   method: 'POST',
   headers: { 'User-Agent': 'brianzelip' },
   auth: { bearer: key },
-  body: JSON.stringify({ name: 'github-auto-repo2' })
+  body: JSON.stringify({
+    name: 'github-auto-repo3',
+    description: 'This is the third iteration of this work.',
+    license_template: 'mit'
+  })
 };
 
 request(options, function(error, response, body) {
