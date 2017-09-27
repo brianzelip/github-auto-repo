@@ -5,7 +5,7 @@ const request = require('request');
 
 const app = express();
 
-const key = 'e15728aa0ce76e9e3384719f7a62bbb510bd7437';
+const key = '';
 
 const options = {
   // uri: 'https://api.github.com/user/repos',

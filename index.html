@@ -15,38 +15,47 @@
     label {
       vertical-align: 0;
     }
+
+    .align-self-end {
+      align-self: flex-end;
+    }
   </style>
 </head>
 
 <body class="container">
 
   <h1>GitHub Repo Deploy Robot</h1>
-  <form action="POST">
+  <form action="/addRepo" method="POST" enctype="application/x-www-form-urlencoded">
     <div class="mb2">
       <div>1. Type of repository to create:</div>
       <div class="ml2">
-        <input type="radio" name="repo-type" id="per-repo" value="individual"> <label for="per-repo">Personal repo</label>
+        <input type="radio" name="repoType" id="per-repo" value="individual"> <label for="per-repo">Personal repo</label>
       </div>
       <div class="ml2">
-        <input type="radio" name="repo-type" id="org-repo" value="organization">
+        <input type="radio" name="repoType" id="org-repo" value="organization">
         <label for="org-repo">Organizational repo</label>
         <label for="parent-org" id="parent-org-label" class="ml1">| Organization name:</label>
-        <input type="text" id="parent-org" class="ml1 flex-auto">
+        <input type="text" name="parentOrg" id="parent-org" class="ml1 flex-auto">
       </div>
     </div>
     <div class="mb2 flex">
       <label for="repo-name">2. Repository name:</label>
-      <input type="text" id="repo-name" class="ml1 flex-auto">
+      <input type="text" name="repoName" id="repo-name" class="ml1 flex-auto">
     </div>
     <div class="mb2 flex">
       <label for="repo-desc">3. Repository description:</label>
-      <input type="text" id="repo-desc" class="ml1 flex-auto">
+      <input type="text" name="repoDesc" id="repo-desc" class="ml1 flex-auto">
     </div>
-    <div class="mb2 flex">
-      <label for="repo-users">4. Add these comma separated GitHub usernames to this repo:</label>
-      <input type="text" id="repo-users" class="ml1 flex-auto">
+    <div class="mb2">
+      <label class="block">4. Add the following GitHub username(s) to this repo:</label>
+      <div class="flex">
+        <div id="new-user-list">
+          <input type="text" name="newUser1" id="new-user-1" class="block">
+        </div>
+        <button id="add-user-btn" class="ml1 btn btn-outline align-self-end regular" type="button">add another username</button>
+      </div>
     </div>
-    <button id="submit-btn" class="btn btn-primary">Submit</button>
+    <button type="submit" class="mt4 btn btn-primary">Deploy repo!</button>
   </form>
 
   <script>
@@ -57,37 +66,18 @@
     const parentOrg = document.getElementById('parent-org');
     const repoName = document.getElementById('repo-name');
     const repoDesc = document.getElementById('repo-desc');
-    const repoUsers = document.getElementById('repo-users');
-    const submitBtn = document.getElementById('submit-btn');
+    const newUserList = document.getElementById('new-user-list');
+    const addUserBtn = document.getElementById('add-user-btn');
 
-    // orgRepoRadio.addEventListener('RadioStateChange', e => {
-    //   parentOrgLabel.classList.toggle('muted');
-    //   console.log('orgRepoRadio button change!');
-    // })
-
-    submitBtn.addEventListener('click', e => {
-      e.preventDefault();
-      const newRepo = {
-        postUri: repoType.value === `organization` ? `https://api.github.com/orgs/${parentOrg.value}/repos` : `https://api.github.com/user/repos`,
-        method: 'POST',
-        headers: { 'User-Agent': 'brianzelip' },
-        body: JSON.stringify({
-          name: repoName.value,
-          description: repoDesc.value,
-          license_template: 'mit'
-        })
-      }
-      function reqListener() {
-        console.log(this.responseText);
-      }
-      var oReq = new XMLHttpRequest();
-      oReq.addEventListener("load", reqListener);
-      oReq.open("POST", "https://wistful-microwave.glitch.me/addRepo");
-      oReq.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      oReq.send(newRepo);
-    },
-      false
-    );
+    addUserBtn.addEventListener('click', e => {
+      const usersCount = newUserList.children.length;
+      const input = document.createElement("input");
+      newUserList.appendChild(input);
+      newUserList.lastChild.setAttribute("type", "text");
+      newUserList.lastChild.setAttribute("name", `newUser${usersCount + 1}`);
+      newUserList.lastChild.setAttribute("id", `new-user-${usersCount + 1}`);
+      newUserList.lastChild.classList.add("block", "mt1");
+    })
   </script>
 </body>
 

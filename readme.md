@@ -15,4 +15,6 @@ create repo:
   2. enter repo name (required)
   3. enter repo description (required)
   4. enter GitHub users to invite to join repo (optional)
-  
+
+
+I think the web app needs to be based on glitch.me to get around the CORS issue I'm facing.

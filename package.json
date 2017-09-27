@@ -3,19 +3,19 @@
   "version": "0.1.0",
   "description": "Node server to create new GitHub repos\"",
   "main": "index.js",
-  "scripts": {
-    "test": "nyc ava --verbose"
-  },
   "keywords": ["NCBI"],
   "author": "brianzelip",
   "license": "MIT",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "8.x"
+  },
   "dependencies": {
     "cors": "^2.8.4",
     "express": "^4.15.5",
-    "request": "^2.82.0"
-  },
-  "devDependencies": {
-    "ava": "^0.22.0",
-    "nyc": "^11.2.1"
+    "request": "^2.82.0",
+    "body-parser": "^1.18.2"
   }
 }
