@@ -14,14 +14,15 @@ const [owner, repo, users] = [
 
 users.map(user => {
   const options = {
-    uri: `https://api.github.com/repos/${owner}/${repo}/collaborators/${user}`,
+    uri: `https://api.github.com/repos/NCBI-Hackathons/GRDER-test-2/collaborators/${user}`,
     method: 'PUT',
     headers: { 'User-Agent': 'brianzelip' },
-    auth: { bearer: key }
+    auth: { bearer: key },
+    body: JSON.stringify({
+      permission: 'admin'
+    })
   };
-  console.log(
-    `owner: ${owner}, repo: ${repo}, user: ${user}, of users: ${users}`
-  );
+  console.log(`uri: ${options.uri}`);
   // body: JSON.stringify({
   //   name: 'github-auto-repo3',
   //   description: 'This is the third iteration of this work.',
